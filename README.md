@@ -19,7 +19,7 @@ initializeUI(sketchTitle)
 ## 🧱 Creating a Panel
 
 ```js
-ui.createUIPanel(title)
+ui.createPanel(title)
 ```
 
 - `title` (string): sets the title of the panel.  
