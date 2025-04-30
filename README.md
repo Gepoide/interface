@@ -5,7 +5,7 @@
 ---
 Add to your index.html file
 ```html
-<script src="https://cdn.jsdelivr.net/gh/Gepoide/interface/interface.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Gepoide/interface@latest/interface.js"></script>
 ```
 
 ---
