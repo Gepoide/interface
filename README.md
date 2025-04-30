@@ -3,6 +3,12 @@
 **Interface.js** is a mini library based on [p5.js](https://p5js.org) that allows you to easily create, organize, and access HTML controls inside a p5.js sketch.
 
 ---
+Add to your index.html file
+```html
+<script src="https://cdn.jsdelivr.net/gh/Gepoide/interface/interface.js"></script>
+```
+
+---
 
 ## 🚀 Initialization
 
