@@ -662,9 +662,7 @@ class Panel {
     let id = index;
     let fileInput = createFileInput((file) => {
       if (file.type == 'image') {
-        let img = createImg(file.data, '');
-        img.hide();
-
+        let img = loadImage(file.data, '');
         if (this.images.length == 0) {
           for (let i = 0; i < id; i++) {
             this.images[i] = undefined;
