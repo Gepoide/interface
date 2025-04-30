@@ -345,7 +345,7 @@ class UI {
   }
 
 
-  createUIPanel(name) {
+  createPanel(name) {
     for (let panel of this.panels) {
       panel.updateHeight();
     }
