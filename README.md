@@ -138,6 +138,16 @@ ui.accessValue(panelIndex, controlIndex, setValue = null)
 
 ---
 
+## 📊 Adding onchange Function
+
+```js
+ui.addOnchangeFunction(panelIndex, controlIndex, fn)
+```
+
+- `fn`: function to be executed once the value of the control change
+
+---
+
 ## 🧠 Utilities
 
 ### Check if the mouse is over the interface
@@ -155,7 +165,7 @@ In your sketch:
 ```js
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  ui.updateUIPanel();
+  ui.updatePanel();
 }
 ```
 
