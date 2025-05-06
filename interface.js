@@ -328,7 +328,7 @@ class UI {
     this.hide.addClass("side-elements")
     this.hide.addClass("hide-button")
     this.hide.mousePressed(() => {
-      this.hideUIPanel()
+      this.hidePanel()
     })
 
     this.debug = createDiv("Toggle Values")
@@ -345,7 +345,7 @@ class UI {
   }
 
 
-  createPanel(name) {
+  createPanel(name,collapseState = false) {
     for (let panel of this.panels) {
       panel.updateHeight();
     }
@@ -358,9 +358,13 @@ class UI {
 
     let a = new Panel(10, 150, name);
 
+
+      a.collapseState = collapseState
+
+
     this.panels.push(a);
     for (let i = 0; i < this.panels.length; i++) {
-      this.updateUIPanel()
+      this.updatePanel()
     }
   }
 
@@ -374,52 +378,52 @@ class UI {
 
   addSlider(index, name, mini, maxi, value, step) {
     this.panels[this.checkIndex(index)].addSlider(name, mini, maxi, value, step);
-    this.updateUIPanel();
+    this.updatePanel();
   }
 
   addButton(index, name, callbackfunction) {
     this.panels[this.checkIndex(index)].addButton(name, callbackfunction);
-    this.updateUIPanel();
+    this.updatePanel();
   }
 
   addCheckbox(index, name, value) {
     this.panels[this.checkIndex(index)].addCheckbox(name, value);
-    this.updateUIPanel();
+    this.updatePanel();
   }
 
   addSelect(index, name) {
     this.panels[this.checkIndex(index)].addSelect(name);
-    this.updateUIPanel();
+    this.updatePanel();
   }
 
   addOption(index, controlIndex, name, value) {
     this.panels[this.checkIndex(index)].controls[controlIndex].option(name, value);
-    this.updateUIPanel();
+    this.updatePanel();
   }
 
   addText(index, name, value) {
     this.panels[this.checkIndex(index)].addText(name, value);
-    this.updateUIPanel();
+    this.updatePanel();
   }
 
   addNumber(index, name, value) {
     this.panels[this.checkIndex(index)].addNumber(name, value);
-    this.updateUIPanel();
+    this.updatePanel();
   }
 
-  addFile(index, name) {
-    this.panels[this.checkIndex(index)].addFile(name, this.panels[index].controls.length);
-    this.updateUIPanel();
+  addFile(index, name,callbackFn = null) {
+    this.panels[this.checkIndex(index)].addFile(name, this.panels[index].controls.length,callbackFn);
+    this.updatePanel();
   }
 
   addColorPicker(index, name, value) {
     this.panels[this.checkIndex(index)].addColorPicker(name, value);
-    this.updateUIPanel();
+    this.updatePanel();
   }
 
   addSaveButton(index, extension = "png",duration = 2) {
     this.panels[this.checkIndex(index)].addSaveButton(extension,duration);
-    this.updateUIPanel();
+    this.updatePanel();
   }
 
   accessImage(panelIndex, imageIndex) {
@@ -446,12 +450,16 @@ class UI {
     }
   }
 
-  mousehoverUI(){
+  addOnchangeFunction(panelIndex, controlIndex,callbackFn = "null"){
+    const control = this.panels[panelIndex].controls[controlIndex];
+
+    control.attribute("onchange",callbackFn)
+  }
+
+  mousehover(){
     let panelstates = []
     
       for(let item of this.panels){
-
-        
        if( item.checkHover()) {
         panelstates.push(true)
        }}
@@ -465,13 +473,13 @@ class UI {
     
   }
 
-  hideUIPanel() {
+  hidePanel() {
     for (let panel of this.panels) {
       panel.hide();
     }
 
     for (let i = 0; i < this.panels.length; i++) {
-      this.updateUIPanel()
+      this.updatePanel()
     }
   }
 
@@ -480,20 +488,20 @@ class UI {
       panel.debug();
     }
     for (let i = 0; i < this.panels.length; i++) {
-      this.updateUIPanel()
+      this.updatePanel()
     }
   }
 
-  UIshortcut() {
+  shortcut() {
     if (keyCode == 191) {
-      this.hideUIPanel();
+      this.hidePanel();
     } else if (keyCode == 220) {
       this.changeDebugState();
     }
   }
 
 
-  updateUIPanel() {
+  updatePanel() {
     for (let panel of this.panels) {
       panel.update();
       panel.updateHeight();
@@ -561,7 +569,7 @@ class Panel {
     this.collapseButton.mousePressed(() => {
       this.collapseState = !this.collapseState
       for (let i = 0; i < ui.panels.length; i++) {
-        ui.updateUIPanel()
+        ui.updatePanel()
       }
     });
 
@@ -586,8 +594,6 @@ class Panel {
     this.names.push(span);
     this.values.push(spanValues);
   }
-
-
 
 
   addSlider(name, minVal, maxVal, value, step) {
@@ -658,11 +664,12 @@ class Panel {
     this.controls.push(control);
   }
 
-  addFile(name, index) {
+  addFile(name, index,callbackFn = null) {
     let id = index;
     let fileInput = createFileInput((file) => {
       if (file.type == 'image') {
-        let img = loadImage(file.data, '');
+        let img = loadImage(file.data,callbackFn);
+
         if (this.images.length == 0) {
           for (let i = 0; i < id; i++) {
             this.images[i] = undefined;
@@ -671,9 +678,8 @@ class Panel {
         } else {
           this.images.splice(id, 1, img)
         }
-
       }
-
+     
     });
     fileInput.hide();
 
@@ -685,9 +691,11 @@ class Panel {
     control.mousePressed(() => {
       fileInput.elt.click()
       this.images[id] = null
+      if(callbackFn){
+        callbackFn()
+      }
     })
     control.size(this.w - 30);
-
 
     this.createLabel(name);
     this.controls.push(control);
@@ -776,9 +784,8 @@ class Panel {
 
         this.names[i].position(this.x, this.y + 32 + this.lineHeight * i);
 
-        this.controls[i].attribute("oninput", "ui.updateUIPanel()")
+        this.controls[i].attribute("oninput", "ui.updatePanel()")
 
-        this.controls[i].attribute("onchange", "ui.updateUIPanel()")
 
 
         this.values[i].position(
