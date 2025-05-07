@@ -18,7 +18,7 @@ Inside your `setup()`:
 initializeUI(sketchTitle)
 ```
 
-- `sketchTitle` (string): sets the sketch title in the UI and is also used for any downloadable file.
+- `sketchTitle` (string): sets the sketch title in the UI and also used the name for the saveCanvas() function.
 
 ---
 
