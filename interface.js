@@ -546,7 +546,7 @@ class Panel {
     this.xOriginal = x;
     this.hideState = true;
     this.collapseState = false;
-    this.debugState = true;
+    this.debugState = false;
     this.hoverState = false;
 
     this.controls = [];
