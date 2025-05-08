@@ -521,7 +521,7 @@ class UI {
             current.xOriginal = last.xOriginal
 
           } else {
-            current.xOriginal = (last.xOriginal + last.w + 62) + 10
+            current.xOriginal = (last.xOriginal + last.w + 62*current.debugState) + 10
             current.y = 40
           }
         } else {
