@@ -701,8 +701,8 @@ class Panel {
     this.controls.push(control);
   }
 
-  addColorPicker(name, value = color(255, 80, 0)) {
-    let control = createColorPicker(value, "number");
+  addColorPicker(name, value = [255,80,0]) {
+    let control = createColorPicker(color(value));
 
     control.addClass("panel-color-picker");
     control.size(this.w);
