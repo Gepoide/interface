@@ -1,309 +1,310 @@
 function injectStyles() {
   const style = document.createElement("style");
   style.innerHTML = `
-    :root {
-  --panel-width: 130px;
-  --font: 'Helvetica', 'Arial';
-  --text-color: rgb(160, 160, 160);
-  --bg-dark: black;
-  --hover-bg: rgba(20, 20, 20, 0.7);
-  --active-bg: rgba(128, 128, 128, 0);
-  --radius: 10px;
+  :root {
+  --panel-background: rgb(200, 200, 200, 0.5);
+  --control-height: 18px;
+  --panel-width: 160px;
+  --panel-font: Helvetica, Arial;
+  --panel-font-weight: bold;
+  --panel-font-size: 13px;
+  --panel-font-letter-spacing: -0.6px;
 }
 
-/* === Base shared styles === */
-.panel-text {
-  font-family: var(--font);
-  font-weight: bold;
-  letter-spacing: -0.8px;
-  user-select: none;
-  padding-left: 12px;
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
 }
 
-/* === Sketch Title === */
-.side-elements {
-  font-family: var(--font);
-  font-size: 13px;
-  letter-spacing: -0.8px;
-  font-weight: bold;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  width:auto;
-  padding:4px 12px 3px 12px;
-  margin:0;
-  background-color: hsla(0, 0.00%, 50.20%, 0.30);
-  border-radius: var(--radius);
-  backdrop-filter: blur(5px);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  user-select: none;
+/* Outer Shell */
+.interface-shell {
+  position:absolute;
+  top:0;
+  height: calc(100% - 16px);
+  width: calc(100% - 16px);
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: max-content auto;
+  padding: 8px;
+}
+
+.interface-shell,
+.interface-shell button,
+.interface-shell select,
+.interface-shell input[type="text"],
+.interface-shell input[type="number"]{
+  user-select:none;
+  font-size: var(--panel-font-size);
+  font-family: var(--panel-font);
+  font-weight: var(--panel-font-weight);
+  letter-spacing: var(--panel-font-letter-spacing);
+}
+
+/* Upper Button*/
+.interface-controls {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto;
+  margin-bottom: 0;
+ 
+}
+
+.interface-controls button {
+  padding: 5px 12px 5px 12px;
+  background: var(--panel-background);
+  border: none;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.interface-controls button:hover {
+  background: rgb(80,80,80,0.5);
 }
 
 .sketch-title {
-  position: absolute;
-  top: 10px;
-  left: 10px; 
+  width: max-content;
+  height: max-content;
+  background: rgb(255,60,0) !important;
 }
 
-.hide-button{
-  width: auto;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  text-align:left;
+.toggle-controls {
+  justify-self: right;
+}
+.hide-button, 
+.value-button{
+  width: max-content;
+  margin-left:8px;
 }
 
-.hide-button:hover,
-.copyright-button:hover{
-  background: var(--hover-bg);
-  color: black;
-}
 
-.hide-button:active,
-.copyright-button:hover{
-  background-color: var(--text-color);
-  border-color: black;
-  color: black;
-  }
-
-.copyright-button{
-  width: auto;
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  text-align:left;
-}
-
-.copyright-button:link,
-.copyright-button:visited{
-  color: black;
-  text-decoration:none
-}
-
-/* === Panel container === */
-.panel-background {
-  background-color: hsla(0, 0.00%, 50.20%, 0.30);
-  border-radius: var(--radius);
-  backdrop-filter: blur(5px);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-}
-
-/* === Title === */
-.panel-title {
-  font-size: 13px;
-  padding-top: 7px;
-  border-top: solid;
-  border-width: 1.5px;
-}
-
-/* === Label text === */
-.panel-label-text {
-  font-size: 13px;
+/* Panel */
+.panel-grid {
+  height: auto;
+  width: max-content;
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: column wrap;
+  column-gap: 8px;
+  row-gap: 8px;
+  padding: 0;
+  margin-top: 8px;
   overflow: hidden;
-  white-space: nowrap;
+}
+
+.panel {
+  width: var(--panel-width);
+  background: var(--panel-background);
+  border-radius: 15px;
+  backdrop-filter: blur(4px);
+  height: max-content;
+}
+
+.controls {
+  padding: 10px 10px;
+  margin-bottom: 24px;
+}
+
+.control-block {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  margin-bottom: 22px;
+  height: 30px;
+}
+
+.control {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto;
+  min-width: 100%;
+  z-index:1;
+}
+
+.control-name {
+  padding-top: 5px;
+  height: 16px;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* === Slider === */
-.panel-slider {
+.control-name:hover{
+color:rgb(128,128,128)
+}
+
+
+.control button {
+  width: auto;  
+  justify-self: stretch;
+  align-self: stretch;
+  height: var(--control-height);
+  padding: 0px 12px 0px 12px;
+  background: black;
+  color: rgb(200, 200, 200);
+  border: none;
+  border-radius: 20px;
+}
+
+.control button:hover {
+  background: transparent;
+  outline: 1px solid black;
+  color: black;
+}
+
+.control input[type="range"] {
   -webkit-appearance: none;
   height: 1.5px;
-  background: var(--bg-dark);
+  background: black;
   border-radius: 20px;
   border-width: 0.1px;
-  margin-left: 12px;
+  width: auto;
+  margin-top: 10px;
+  margin-bottom:6px;
 }
 
-.panel-slider::-webkit-slider-thumb {
+.control input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  height: 14px;
-  width: 14px;
-  background: var(--bg-dark);
-  border: 2px solid rgba(128, 128, 128, 0);
-  border-radius: var(--radius);
+  height: 15px;
+  width: 15px;
+  background: black;
+  border-radius: 20px;
 }
 
-/* === Buttons & Checkbox containers === */
-.panel-button-general,
-.panel-checkbox {
-  margin-left: 12px;
-  margin-top: -5px;
-}
-
-/* === Checkbox base === */
-input[type="checkbox"] {
+.control input[type="text"],
+.control input[type="number"]{
   -webkit-appearance: none;
-  appearance: none;
-  background-color: transparent;
+  width: auto;
+  apperance:none;
+  outline: 1px solid black;
+  background: transparent;
+  border: none;
+  border-radius: 20px;
+  max-height: var(--control-height);
+  padding: 2px 12px;
   margin: 0;
-  font: inherit;
-  color: currentColor;
-  width: 100%;
-  height: 18px;
-  border: 1.5px solid transparent;
-  border-radius: var(--radius);
-  display: grid;
-  place-content: center;
+  min-width: 100%;
+  box-sizing: border-box;
 }
 
-/* === Checkbox inner content === */
-input[type="checkbox"]::before {
-  content: "+";
-  color: gray;
-  background-color: var(--bg-dark);
-  width: var(--panel-width);
-  height: 11px;
-  margin-bottom: 0;
-  border-radius: 20px;
-  text-align: center;
-  font-size: 10px;
-  font-family: var(--font);
-  font-weight: bold;
-  letter-spacing: -0.8px;
-  padding: 0 0 2px 0;
-  border: 1.5px solid var(--bg-dark);
-}
-
-/* === Checkbox states === */
-input[type="checkbox"]:checked::before {
-  color: black;
-  background-color: transparent;
-}
-
-input[type="checkbox"]:checked:hover::before {
-  background-color: rgba(20, 20, 20, 0.2);
-}
-
-input[type="checkbox"]:hover::before {
-  background-color: var(--hover-bg);
-}
-
-/* === Buttons === */
-.panel-button {
+.control select{
   -webkit-appearance: none;
-  font-family: var(--font);
-  font-weight: bold;
-  font-size: 11px;
-  border: 1px solid black;
-  border-radius: var(--radius);
-  background: var(--bg-dark);
-  color: var(--text-color);
-  width: 40px;
-  padding: 0;
-  height:15px;
-}
-
-.panel-button:hover {
-  background: var(--hover-bg);
-  color: black;
-}
-
-/* === Select dropdown === */
-.panel-select {
-  margin-top: -5px;
-  border-radius: 20px;
+  apperance:none;
+  outline: 1px solid black;
+  background: black;
+  color: rgb(200,200,200);
   border: none;
-  background-color: var(--bg-dark);
-  color: var(--text-color);
-  font-size: 11px;
-  font-family: var(--font);
-  font-weight: bold;
-  letter-spacing: -0.1px;
-  padding-left: 12px;
-  height: 15px;
-  margin-left:12px;
+  border-radius: 20px;
+  max-height: var(--control-height);
+  padding: 1px 12px;
+  margin: 0;
+  min-width: 100%;
+  box-sizing: border-box;
 }
 
-/* === Text Input === */
-.panel-input{
+.control input[type="color"] {
+  outline: 1px solid black;
+  background: transparent;
+  border: none;
+  border-radius: 20px;
+  height: var(--control-height);
+  width: auto;
+}
+.control input[type="color"]::-webkit-color-swatch {
   -webkit-appearance: none;
-  margin-top: -5px;
-  margin-left:12px;
-  border-radius: 20px;
+  margin: 0;
   border: none;
-  background-color: var(--bg-dark);
-  color: var(--text-color);
-  padding-left: 12px;
-  font-size: 11px;
-  font-family: var(--font);
-  font-weight: bold;
-  letter-spacing: -0.1px;
-  height:15px;
+  border-radius: 20px;
 }
 
-.panel-input:focus{
-  background-color: transparent;
-  border-color:black;
-  outline: 1.5px solid currentColor;
-  outline-offset: 0;
-  color: black;
+.control-checkbox-on{
+  background: black !important;
+  color: rgb(200,200,200) !important;
 }
 
+.control-checkbox-on:hover{
+  background: gray !important;
+  color: black !important;
+  outline: 1px solid black !important;
+}
 
-/* === File Input === */
+.control-checkbox-off{
+  background: transparent !important;
+  color: black !important;
+  outline: 1px solid black !important;
+}
 
-.panel-button-file{
+.control-checkbox-off:hover{
+  background: lightgray !important;
+  color: black !important;
+  outline: 1px solid black !important;
+}
+
+.control-upload{
   text-align: left;
-  padding-left: 14px;
 }
-.panel-file-input {
-  -webkit-appearance: none;
-  margin-top: -5px;
-  margin-left:12px;
-  border-radius: 20px;
+
+.save-block,
+.panel-title-block {
+  padding: 0px 10px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: auto 25%;
+}
+
+.save-text,
+.panel-title-text {
+  justify-self: left;
+  align-self: center;
+}
+
+.save-button,
+.panel-title-button {
+  justify-self: stretch;
+  align-self: stretch;
+  padding: 0px 1px 1px 1px;
+  background: black;
+  color: rgb(200, 200, 200);
   border: none;
-  background-color: transparent;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+  height: var(--control-height);
+}
+
+.save-button:hover,
+.panel-title-button:hover {
+  background: transparent;
   color: black;
-  font-size: 11px;
-  font-family: var(--font);
-  font-weight: bold;
-  letter-spacing: -0.1px;
-  height: 15px;
-  padding-bottom:1px;
-  width:300px;
+  outline: 1px solid black;
 }
 
-.panel-file-input::file-selector-button{
-  -webkit-appearance: none;
-  content: "Select Image";
-  border: solid black;
-  border-radius: 20px;
-  background-color: var(--bg-dark);
-  color: var(--text-color);
-  font-size: 11px;
-  font-family: var(--font);
-  font-weight: bold;
-  letter-spacing: -0.1px;
-
-  height: 16px;
-  padding-left: 12px;
-  padding-right: 12px;
-
-}
-.panel-file-input::file-selector-button:hover{
-  background: var(--hover-bg);
-  color: black;
-}
-/* === Color Picker === */
-.panel-color-picker{
-  -webkit-appearance: none;
-  border:none;
-  outline: 1.5px none currentColor;
-  background-color:transparent;
-  border-radius: 20px;
-  margin-top:-8px;
-  height:23px;
-  padding:0 15px 0 10px ;   
+.panel-title-block {
+  padding-top: 10px;
+  border-top: 1px solid black;
 }
 
-.panel-color-picker::-webkit-color-swatch{
-  margin:0px;
-  padding-left:50px;
-  border: 1.5px solid var(--bg-dark);
-  border-radius: 20px;
+@media screen and (max-width: 600px) {
+:root{
+--panel-font-size:16px;
+--panel-width: 200px;
+--control-height: 24px;
 }
 
-  `;
+.control-block {
+  margin-bottom: 34px;
+}
+.control input[type="range"] {
+  margin-bottom:6px;
+}
+
+.control-name {
+  height: 20px;
+}
+
+ `;
   document.head.appendChild(style);
 }
 
@@ -319,605 +320,460 @@ class UI {
   constructor(title) {
     this.panels = []
     this.title = title
+    this.hide = false
+    this.debug = false
 
-    this.sketchTitle = createDiv(this.title)
-    this.sketchTitle.addClass("side-elements");
+    //create all the DOM elements 
+    this.container = createDiv()
+    this.interfaceControls = createDiv()
+    this.sketchTitle = createButton(this.title)
+    this.toggleControls = createDiv()
+    this.hideButton = createButton("Toggle UI")
+    this.valueButton = createButton("Toggle Values")
+    this.panelGrid = createDiv()
+
+    //assigning style to each element
+    this.container.addClass("interface-shell")
+    this.interfaceControls.addClass("interface-controls")
     this.sketchTitle.addClass("sketch-title")
+    this.toggleControls.addClass("toggle-controls")
+    this.hideButton.addClass("hide-button")
+    this.valueButton.addClass("value-button")
+    this.panelGrid.addClass("panel-grid")
 
-    this.hide = createDiv("Toggle UI")
-    this.hide.addClass("side-elements")
-    this.hide.addClass("hide-button")
-    this.hide.mousePressed(() => {
-      this.hidePanel()
+    //parenting elements
+    this.interfaceControls.parent(this.container)
+    this.panelGrid.parent(this.container)
+    this.sketchTitle.parent(this.interfaceControls)
+    this.toggleControls.parent(this.interfaceControls)
+    this.hideButton.parent(this.toggleControls)
+    this.valueButton.parent(this.toggleControls)
+
+    this.hideButton.mousePressed(() => {
+      this.hide = !this.hide
+
+      if (this.hide) {
+        this.panelGrid.style("display", "none")
+
+      } else {
+        this.panelGrid.style("display", "flex")
+      }
     })
 
-    this.debug = createDiv("Toggle Values")
-    this.debug.addClass("side-elements")
-    this.debug.addClass("hide-button")
-    this.debug.style('top', '40px')
-    this.debug.mousePressed(() => {
-      this.changeDebugState()
+    this.valueButton.mousePressed(()=>{
+      this.debug = !this.debug
+      this.values()
     })
-
-    this.copyright = createA("https://giuseppelaezza.com/", "©2025 GL", "_blank")
-    this.copyright.addClass("side-elements");
-    this.copyright.addClass("copyright-button")
   }
 
+  createPanel(name, collapseState = false) {
 
-  createPanel(name,collapseState = false) {
-    for (let panel of this.panels) {
-      panel.updateHeight();
-    }
+    let newPanel = new Panel(name, collapseState)
 
-    let yoffset = 0;
-    if (this.panels.length > 0) {
-      let lastPanel = this.panels[this.panels.length - 1];
-      yoffset = lastPanel.h + lastPanel.y;
-    }
-
-    let a = new Panel(10, 150, name);
-
-
-      a.collapseState = collapseState
-
-
-    this.panels.push(a);
-    for (let i = 0; i < this.panels.length; i++) {
-      this.updatePanel()
-    }
+    newPanel.panel.parent(this.panelGrid)
+    this.panels.push(newPanel)
   }
 
-  checkIndex(index){
-    if(index>this.panels.length-1){
-      return this.panels.length-1
+  checkIndex(index) {
+    if (index > this.panels.length - 1) {
+      return this.panels.length - 1
     } else {
       return index
     }
   }
 
-  addSlider(index, name, mini, maxi, value, step) {
-    this.panels[this.checkIndex(index)].addSlider(name, mini, maxi, value, step);
-    this.updatePanel();
+  addSlider(index, name, minVal, maxVal, value, step) {
+    this.panels[this.checkIndex(index)].addSlider(name, minVal, maxVal, value, step);
   }
 
-  addButton(index, name, callbackfunction) {
-    this.panels[this.checkIndex(index)].addButton(name, callbackfunction);
-    this.updatePanel();
+  addButton(index, name, callbackFn) {
+    this.panels[this.checkIndex(index)].addButton(name, callbackFn);
+
   }
 
   addCheckbox(index, name, value) {
     this.panels[this.checkIndex(index)].addCheckbox(name, value);
-    this.updatePanel();
+
   }
 
   addSelect(index, name) {
     this.panels[this.checkIndex(index)].addSelect(name);
-    this.updatePanel();
+
   }
 
   addOption(index, controlIndex, name, value) {
-    this.panels[this.checkIndex(index)].controls[controlIndex].option(name, value);
-    this.updatePanel();
+    this.panels[this.checkIndex(index)].controls.inputs[controlIndex].option(name, value);
+
   }
 
-  addText(index, name, value) {
+  addText(index, name, value,maxVal = null) {
     this.panels[this.checkIndex(index)].addText(name, value);
-    this.updatePanel();
+
+    if(maxVal){
+    let id = this.panels[this.checkIndex(index)].controls.inputs.length-1
+    
+    this.panels[this.checkIndex(index)].controls.inputs[id].attribute("maxlength",maxVal)
+    }
   }
 
-  addNumber(index, name, value) {
+  addNumber(index, name, value,minVal=null,maxVal=null) {
     this.panels[this.checkIndex(index)].addNumber(name, value);
-    this.updatePanel();
+    let id = this.panels[this.checkIndex(index)].controls.inputs.length-1
+
+      this.panels[this.checkIndex(index)].controls.inputs[id].attribute("min",0)
+
+      this.panels[this.checkIndex(index)].controls.inputs[id].attribute("max",maxVal)
+    
   }
 
-  addFile(index, name,callbackFn = null) {
-    this.panels[this.checkIndex(index)].addFile(name, this.panels[index].controls.length,callbackFn);
-    this.updatePanel();
+  addFile(index, name, callbackFn = null) {
+    this.panels[this.checkIndex(index)].addFile(name, this.panels[index].controls.inputs.length, callbackFn);
+
   }
 
   addColorPicker(index, name, value) {
     this.panels[this.checkIndex(index)].addColorPicker(name, value);
-    this.updatePanel();
+
   }
 
-  addSaveButton(index, extension = "png",duration = 2) {
-    this.panels[this.checkIndex(index)].addSaveButton(extension,duration);
-    this.updatePanel();
+  addSaveButton(index, extension = "png", duration = 2) {
+    this.panels[this.checkIndex(index)].addSaveButton(extension, duration);
+
   }
 
   accessImage(panelIndex, imageIndex) {
-    const control = this.panels[panelIndex].images[imageIndex];
+    const control = this.panels[panelIndex].controls.images[imageIndex];
     return control
   }
 
   accessValue(panelIndex, controlIndex, setValue = null) {
-    const control = this.panels[panelIndex].controls[controlIndex];
+    const control = this.panels[panelIndex].controls.inputs[controlIndex];
 
     if (setValue === null) {
       if (control.attribute("type") == "number") {
-        return control.value?.() - 0 ?? control.checked?.();
+        return control.value?.() - 0
+      } else if(control.value() == "true"){
+        return true
+      }else if(control.value() == "false"){
+        return false
       } else {
-        return control.value?.() ?? control.checked?.();
+
+        return control.value?.()
       }
     } else {
-      if (typeof control.value === "function") {
-        control.value(setValue);
-      } else if (typeof control.checked === "function") {
-        control.checked(setValue);
-      }
+      control.value(setValue);
+
       return this.accessValue(panelIndex, controlIndex);
     }
   }
 
-  addOnchangeFunction(panelIndex, controlIndex,callbackFn = "null"){
-    const control = this.panels[panelIndex].controls[controlIndex];
+  addOnchangeFunction(panelIndex, controlIndex, callbackFn = "null") {
+    const control = this.panels[panelIndex].controls.inputs[controlIndex];
 
-    control.attribute("onchange",callbackFn)
-  }
-
-  mousehover(){
-    let panelstates = []
-    
-      for(let item of this.panels){
-       if( item.checkHover()) {
-        panelstates.push(true)
-       }}
-
-       if(panelstates.length>0){
-        return true
-       } else {
-        return false
-       }
+    control.removeAttribute("onchange")
+    control.attribute('onchange',`function fn() {
+      ui.values()
+      ${callbackFn}
+    }
       
+    fn()`);
+  }
+
+  addOninputFunction(panelIndex, controlIndex, callbackFn = "null") {
+    const control = this.panels[panelIndex].controls.inputs[controlIndex];
+
+    control.removeAttribute("oninput")
+    control.attribute('oninput',`function fn() {
+      ui.values()
+      ${callbackFn}
+    }
+      
+    fn()`);
     
   }
 
-  hidePanel() {
-    for (let panel of this.panels) {
-      panel.hide();
-    }
-
-    for (let i = 0; i < this.panels.length; i++) {
-      this.updatePanel()
-    }
-  }
-
-  changeDebugState() {
-    for (let panel of this.panels) {
-      panel.debug();
-    }
-    for (let i = 0; i < this.panels.length; i++) {
-      this.updatePanel()
-    }
-  }
-
-  shortcut() {
-    if (keyCode == 191) {
-      this.hidePanel();
-    } else if (keyCode == 220) {
-      this.changeDebugState();
+  values(){
+    for (let item of this.panels) {
+      item.values(this.debug)
     }
   }
 
 
-  updatePanel() {
-    for (let panel of this.panels) {
-      panel.update();
-      panel.updateHeight();
-    }
+  mousehover() {
+    let panelstates = []
 
-    for (let i = 1; i < this.panels.length; i++) {
-
-      let last = this.panels[i - 1];
-      let current = this.panels[i];
-      if (this.panels.length > 1) {
-
-        current.y = last.h + last.y + 10;
-
-        if (current.y + current.h > windowHeight) {
-          if (last.y == 10) {
-            current.y = last.y + last.h + 40
-            current.xOriginal = last.xOriginal
-
-          } else {
-            current.xOriginal = (last.xOriginal + last.w + 62*current.debugState) + 10
-            current.y = 40
-          }
-        } else {
-          current.xOriginal = last.x
-        }
+    for (let item of this.panels) {
+      if (item.hover()) {
+        panelstates.push(true)
       }
-
     }
+
+    if (panelstates.length > 0) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  clipboard(panelIndex,controlIndex){
+    let val = ui.accessValue(panelIndex,controlIndex)
+    navigator.clipboard.writeText(String(val))
+
+    ui.sketchTitle.html("Value copied: " + String(val))
+
+
+    window.setTimeout(()=> ui.sketchTitle.html(this.title),1500)
+   
   }
 
 }
 
 class Panel {
-  constructor(x, w = 130, title = "") {
-    this.x = x;
-    this.y = 40;
-    this.w = w;
-    this.h = 0;
-    this.lineHeight = 45;
-    this.bottomPadding = 110;
+  constructor(name = "", collapseState) {
+    this.state = {
+      collapse: collapseState,
+      debug: false,
+      hover: false
+    }
+    this.controls = {
+      inputs: [],
+      span: [],
+      names: [],
+      images: [],
+      block: createDiv()
+    }
 
-    this.xOriginal = x;
-    this.hideState = true;
-    this.collapseState = false;
-    this.debugState = false;
-    this.hoverState = false;
+    //create all the DOM elements 
+    this.panel = createDiv()
 
-    this.controls = [];
-    this.names = [];
-    this.values = [];
-    this.images = [];
+    this.save = {
+      block: createDiv()
+    }
 
-    this.panelBackground = createDiv("");
-    this.panelBackground.addClass("panel-background");
+    this.title = {
+      block: createDiv(),
+      text: createDiv(ui.panels.length + " - " + name),
+      button: createButton("-")
+    }
 
-    this.valueBackground = createDiv("");
-    this.valueBackground.addClass("panel-background");
+    //assigning style to each element
+    this.panel.addClass("panel")
+    this.controls.block.addClass("controls")
+    this.save.block.addClass("save-block")
 
-    this.title = createDiv(ui.panels.length + " - " + title);
-    this.title.addClass("panel-text");
-    this.title.addClass("panel-title");
+    this.title.block.addClass("panel-title-block")
+    this.title.text.addClass("panel-title-text")
+    this.title.button.addClass("panel-title-button")
 
-    this.collapseButton = createDiv("+")
-    this.collapseButton.addClass("panel-button")
-    this.collapseButton.mousePressed(() => {
-      this.collapseState = !this.collapseState
-      for (let i = 0; i < ui.panels.length; i++) {
-        ui.updatePanel()
-      }
-    });
+    //parenting elements
+    this.controls.block.parent(this.panel)
+    this.save.block.parent(this.panel)
+    this.title.block.parent(this.panel)
 
-    this.saveButton = null;
+    this.title.text.parent(this.title.block)
+    this.title.button.parent(this.title.block)
+
+    this.title.button.mousePressed(() => {
+      this.state.collapse = !this.state.collapse
+      this.collapse()
+    })
+
+    this.collapse()
   }
 
+  createControl(name, fn) {
+    let control = {
+      container: createDiv(),
+      block: createDiv(),
+      object: fn,
+      name: createDiv(this.controls.inputs.length + " - " + name)
+    }
 
-  createLabel(name) {
-    let span = createSpan(this.controls.length + " - " + name);
-    span.addClass("panel-label-text");
-    span.addClass("panel-text");
+    control.container.addClass("control-block");
+    control.block.addClass("control");
+    control.name.addClass("control-name");
 
-    span.size(this.w - 30);
+    control.container.parent(this.controls.block)
+    control.block.parent(control.container)
+    control.object.parent(control.block)
+    control.name.parent(control.container)
 
-    let spanValues = createSpan("");
-    spanValues.addClass("panel-label-text");
-    spanValues.addClass("panel-text");
-    spanValues.addClass("panel-values");
+    control.object.attribute("oninput","ui.values()")
+    control.object.attribute("onchange","ui.values()")
 
-    spanValues.size(this.w - 30);
+    this.controls.inputs.push(control.object);
+  
+    control.name.attribute('onclick',`ui.clipboard(${ui.panels.length-1},${this.controls.inputs.length-1})`)
 
-    this.names.push(span);
-    this.values.push(spanValues);
+    this.controls.names.push(name)
+    this.controls.span.push(control.name)
+    
   }
 
 
   addSlider(name, minVal, maxVal, value, step) {
-    let control = createSlider(minVal, maxVal, value, step);
-
-    control.addClass("panel-slider");
-    control.size(this.w - 30);
-
-    this.createLabel(name);
-    this.controls.push(control);
+    this.createControl(name, createSlider(minVal, maxVal, value, step))
   }
+  addButton(name, callbackFn) {
 
+    function createInterfaceButton(callbackFn) {
+      let button = createButton("+")
+  
+      button.mousePressed(callbackFn)
 
-  addButton(name, callbackFn = null) {
-    let control = createButton(" + ");
+      return button
+    }
 
-    control.addClass("panel-button");
-    control.addClass("panel-button-general");
-    control.size(this.w - 30);
-    control.mousePressed(callbackFn);
-
-    this.createLabel(name);
-    this.controls.push(control);
+    this.createControl(name,createInterfaceButton(callbackFn))
   }
 
   addCheckbox(name, defaultVal) {
-    let control = createCheckbox("", defaultVal);
+    function createInterfaceCheckbox(defaultVal = true) {
+      let button = createButton("+", defaultVal)
+      
+      button.mousePressed(() => {
+        if (button.value()=="true") {
+          button.value(false)
+          button.addClass("control-checkbox-off")
+          button.removeClass("control-checkbox-on")
+          
+        } else if(button.value()=="false") {
+          button.value(true)
+          button.addClass("control-checkbox-on")
+          button.removeClass("control-checkbox-off")
+          
+        }
 
-    control.addClass("panel-checkbox");
-    control.size(this.w - 30);
+        ui.values()
+      })
 
-    document.documentElement.style.setProperty(
-      "--panel-width",
-      this.w - 30 + "px"
-    );
+      return button
+    }
 
-    this.createLabel(name);
-    this.controls.push(control);
+    this.createControl(name, createInterfaceCheckbox(defaultVal))
   }
 
   addSelect(name) {
-    let control = createSelect(false);
-
-    control.addClass("panel-select");
-    control.size(this.w - 30);
-
-    this.createLabel(name);
-    this.controls.push(control);
+    this.createControl(name, createSelect(false))
   }
 
   addText(name, value) {
-    let control = createInput(value);
-
-    control.addClass("panel-input");
-    control.size(this.w - 42);
-
-    this.createLabel(name);
-    this.controls.push(control);
+    this.createControl(name, createInput(value))
   }
 
   addNumber(name, value) {
-    let control = createInput(value, "number");
-
-    control.addClass("panel-input");
-    control.size(this.w - 42);
-
-    this.createLabel(name);
-    this.controls.push(control);
+    this.createControl(name, createInput(value, "number"))
   }
 
-  addFile(name, index,callbackFn = null) {
-    let id = index;
+  addFile(name, index, callbackFn = null) {
     let fileInput = createFileInput((file) => {
       if (file.type == 'image') {
-        let img = loadImage(file.data,callbackFn);
+        let img = loadImage(file.data, callbackFn);
 
-        if (this.images.length == 0) {
-          for (let i = 0; i < id; i++) {
-            this.images[i] = undefined;
+        if (this.controls.images.length == 0) {
+          for (let i = 0; i < index; i++) {
+            this.controls.images[i] = undefined;
           }
-          this.images[id] = img;
+          this.controls.images[index] = img;
         } else {
-          this.images.splice(id, 1, img)
+          this.controls.images.splice(index, 1, img)
         }
       }
-     
+
     });
     fileInput.hide();
 
+    function createInterfaceButton(callbackFn) {
+      let button = createButton("Upload")
+  
+      button.mousePressed(callbackFn)
+      button.addClass("control-upload")
 
-    let control = createButton("Upload");
-    control.addClass("panel-button");
-    control.addClass("panel-button-general");
-    control.addClass("panel-button-file");
-    control.mousePressed(() => {
+      return button
+    }
+
+    this.createControl(name, createInterfaceButton((callbackFn) => {
       fileInput.elt.click()
-      this.images[id] = null
-      if(callbackFn){
-        callbackFn()
+      this.controls.images[index] = null
+      if (callbackFn) {
+        callbackFn
       }
-    })
-    control.size(this.w - 30);
+    }))
 
-    this.createLabel(name);
-    this.controls.push(control);
   }
 
-  addColorPicker(name, value = [255,80,0]) {
-    let control = createColorPicker(color(value));
-
-    control.addClass("panel-color-picker");
-    control.size(this.w);
-
-    this.createLabel(name);
-    this.controls.push(control);
+  addColorPicker(name, value = [255, 60, 0]) {
+    this.createControl(name, createColorPicker(color(value)))
   }
 
-  addSaveButton(extension,duration) {
-    this.saveButton = [createButton(" + "), createSpan("Save")];
-    if(extension == "gif"){
-      this.saveButton[0].mousePressed(() => saveGif(ui.title + "."+extension, duration));
+  addSaveButton(extension, duration) {
+    let button = createButton("+")
+    let name = createDiv("Save")
+
+    button.addClass("save-button")
+    name.addClass("save-text")
+
+    name.parent(this.save.block)
+    button.parent(this.save.block)
+
+    button.mousePressed(() => {
+      if (extension == "gif") {
+        saveGif(ui.title + "." + extension, duration)
+      }
+      else {
+        save(ui.title + "." + extension)
+      }
+    });
+
+  }
+
+  values(bool){
+    for(let i = 0; i<  this.controls.span.length; i++){
+      let current = this.controls.span[i]
+
+      if(bool){
+      current.html(i + " - " + this.controls.inputs[i].value())
     } else {
-      this.saveButton[0].mousePressed(() => save(ui.title + "."+extension));
+      current.html(i + " - " + this.controls.names[i])
     }
-    
-    this.saveButton[0].addClass("panel-button");
-    this.saveButton[1].addClass("panel-label-text");
-    this.saveButton[1].addClass("panel-text");
-    this.saveButton[1].size(30);
   }
+}
 
-  updateHeight() {
-    this.resetPadding();
-    if (this.collapseState) {
-      this.h = 50
-    } else {
-      this.h = max(this.controls.length * this.lineHeight + this.bottomPadding, 50);
-    }
+  collapse() {
 
-  }
-
-  resetPadding() {
-    if (this.controls.length == 0) {
-      if (this.saveButton) {
-        this.bottomPadding = 65;
-      } else {
-        this.bottomPadding = 45;
-      }
-    } else {
-      if (this.saveButton) {
-        this.bottomPadding = 110;
-      } else {
-        this.bottomPadding = 80;
-      }
+    if (this.state.collapse) {
+      this.title.block.style("border-top", "none")
+      this.save.block.style("display", "none")
+      this.title.button.html("+")
+      this.title.block.style("padding-top","5px")
+      this.title.block.style("margin-bottom","5px")
+      this.controls.block.style("display", "none")
+    } else {  
+      this.title.block.style("border-top", "1px solid black")
+      this.save.block.style("display", "grid")
+      this.title.button.html("-")
+      this.title.block.style("padding-top","10px")
+      this.title.block.style("margin-bottom","10px")
+      this.controls.block.style("display", "block")
     }
   }
 
-  renderPanel() {
-    this.updateHeight();
-    this.panelBackground.position(this.x, this.y);
-    this.panelBackground.size(this.w, this.h);
+  hover() {
+    let x = this.panel.position().x
+    let y = this.panel.position().y
+    let w = this.panel.size().width
+    let h = this.panel.size().height
 
-    this.title.position(this.x, this.y + this.h - 32);
-    this.title.size(this.w - 12);
-
-    this.collapseButton.position(this.x + 110, this.y + this.h - 24)
-    this.collapseButton.size(30);
-    this.collapseButton.attribute('align', 'center')
-
-    if (this.collapseState) {
-      this.collapseButton.html(" + ")
-    } else {
-      this.collapseButton.html(" - ")
-    }
-
-    if (this.debugState) {
-      this.valueBackground.position(this.x + this.w, this.y);
-      this.valueBackground.size(62, this.h);
-    } else {
-      this.valueBackground.size(0, this.h);
-    }
-  }
-
-  renderControls() {
-    if (this.controls.length > 0) {
-      for (let i = 0; i < this.controls.length; i++) {
-        this.controls[i].position(this.x, this.y + 20 + this.lineHeight * i);
-
-        this.names[i].position(this.x, this.y + 32 + this.lineHeight * i);
-
-        this.controls[i].attribute("oninput", "ui.updatePanel()")
-
-
-
-        this.values[i].position(
-          this.x + this.w - 10,
-          this.y + 32 + this.lineHeight * i - 17
-        );
-        this.values[i].size(55, 20);
-        this.values[i].attribute("align", "center");
-
-      }
-    }
-  }
-
-  updateValues() {
-
-    for (let i = 0; i < this.controls.length; i++) {
-      if (this.debugState) {
-        if (this.controls[i].value() == undefined) {
-          this.values[i].html(this.controls[i].checked());
-        } else {
-          this.values[i].html(this.controls[i].value());
-        }
-      } else {
-        this.values[i].html("")
-      }
-    }
-  }
-
-  renderSaveButton() {
-    if (this.saveButton) {
-      this.saveButton[0].position(
-        this.x + 45,
-        this.y +
-        this.controls.length * this.lineHeight +
-        this.bottomPadding -
-        55
-      );
-      this.saveButton[0].size(35);
-
-      this.saveButton[1].position(
-        this.x,
-        this.y +
-        this.controls.length * this.lineHeight +
-        this.bottomPadding -
-        55
-      );
-
-
-      for (let item of this.saveButton) {
-        if (this.collapseState) {
-          item.attribute("hidden", "true")
-        } else {
-          item.removeAttribute("hidden")
-        }
-      }
-    }
-  }
-
-  update() {
-    this.resetPadding();
-    this.updateHeight();
-    this.hidePosition();
-    this.renderPanel();
-    this.renderControls();
-    this.renderSaveButton();
-    this.collapsePanel()
-    this.updateValues();
-  }
-
-  collapsePanel() {
-    for (let panel of this.controls) {
-      if (this.collapseState) {
-        panel.attribute("hidden", "true")
-      } else {
-        panel.removeAttribute("hidden")
-      }
-    }
-
-    for (let panel of this.names) {
-      if (this.collapseState) {
-        panel.attribute("hidden", "true")
-      } else {
-        panel.removeAttribute("hidden")
-      }
-    }
-
-    for (let panel of this.values) {
-      if (this.collapseState) {
-        panel.attribute("hidden", "true")
-      } else {
-        panel.removeAttribute("hidden")
-      }
-    }
-  }
-
-  hidePosition() {
-    if (this.hideState) {
-      this.x = this.xOriginal;
-    } else {
-      this.x = -this.w - 80;
-    }
-  }
-
-  hide() {
-    this.hideState = !this.hideState;
-  }
-
-  debug() {
-    this.debugState = !this.debugState;
-  }
-
-  checkHover(){
-    let offset;
-    this.updateHeight()
-    if(!this.hideState){
-      return false
-    } else {
-      let offset
-      if(this.debugState){
-        offset = 62
-      } else {
-        offset = 0
-      }
-    
-    if(mouseX>this.x &&
-      mouseX< this.x + this.w + offset &&
-      mouseY > this.y &&
-      mouseY< this.y + this.h
+    if (mouseX > x &&
+      mouseX < x + w &&
+      mouseY > y &&
+      mouseY < y + h
     ) {
       return true
     } else {
       return false
     }
-  }}
+
+  }
 }
+
