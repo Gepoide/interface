@@ -165,7 +165,7 @@ ui.addOninputFunction(panelIndex, controlIndex, fn)
 ### Check if the mouse is over the interface
 
 ```js
-ui.mousehoverUI()
+ui.mousehover()
 ```
 
 ---
