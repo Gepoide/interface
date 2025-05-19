@@ -90,12 +90,14 @@ ui.addOption(panelIndex, controlIndex, name, value)
 ### 📝 Text or Number Input
 
 ```js
-ui.addText(panelIndex, name, value)
-ui.addNumber(panelIndex, name, value)
+ui.addText(panelIndex, name, value, maxLength)
+ui.addNumber(panelIndex, name, value, minVal, maxVal)
 ```
 - `name` (string): input label   
 - `value` : default input value
 - Outputs a `string` or `number`, respectively
+- `maxLength` set a max length for the string
+- `minVal` and `maxVal` limit the number between these two values
 
 ---
 
