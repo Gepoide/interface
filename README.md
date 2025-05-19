@@ -148,12 +148,30 @@ ui.addOnchangeFunction(panelIndex, controlIndex, fn)
 
 ---
 
+## 📊 Adding oninput Function
+
+```js
+ui.addOninputFunction(panelIndex, controlIndex, fn)
+```
+
+- `fn`: function to be executed once the value of the control change
+
+---
+
 ## 🧠 Utilities
 
 ### Check if the mouse is over the interface
 
 ```js
 ui.mousehoverUI()
+```
+
+---
+
+### Parent the UI to an html container
+
+```js
+ui.container.parent("#container-id")
 ```
 
 ---
