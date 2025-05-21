@@ -63,13 +63,19 @@ canvas {
 }
 
 .interface-controls button:hover {
-  background: rgb(80,80,80,0.5);
+  background: black;
+  color: rgb(200,200,200);
 }
 
 .sketch-title {
   width: max-content;
   height: max-content;
   background: rgb(255,60,0) !important;
+}
+
+.sketch-title:hover{
+  outline: 2px solid black;
+  color: black !important;
 }
 
 .toggle-controls {
@@ -84,16 +90,15 @@ canvas {
 
 /* Panel */
 .panel-grid {
-  height: auto;
+  height: 100%;
   width: max-content;
   display: flex;
-  flex-wrap: wrap;
   flex-flow: column wrap;
   column-gap: 8px;
   row-gap: 8px;
   padding: 0;
   margin-top: 8px;
-  overflow: hidden;
+  overflow: hidden visible;
 }
 
 .panel {
@@ -105,6 +110,8 @@ canvas {
 }
 
 .controls {
+  
+
   padding: 10px 10px;
   margin-bottom: 24px;
 }
@@ -360,7 +367,7 @@ class UI {
       }
     })
 
-    this.valueButton.mousePressed(()=>{
+    this.valueButton.mousePressed(() => {
       this.debug = !this.debug
       this.values()
     })
@@ -406,24 +413,24 @@ class UI {
 
   }
 
-  addText(index, name, value,maxVal = null) {
+  addText(index, name, value, maxVal = null) {
     this.panels[this.checkIndex(index)].addText(name, value);
 
-    if(maxVal){
-    let id = this.panels[this.checkIndex(index)].controls.inputs.length-1
-    
-    this.panels[this.checkIndex(index)].controls.inputs[id].attribute("maxlength",maxVal)
+    if (maxVal) {
+      let id = this.panels[this.checkIndex(index)].controls.inputs.length - 1
+
+      this.panels[this.checkIndex(index)].controls.inputs[id].attribute("maxlength", maxVal)
     }
   }
 
-  addNumber(index, name, value,minVal=null,maxVal=null) {
+  addNumber(index, name, value, minVal = null, maxVal = null) {
     this.panels[this.checkIndex(index)].addNumber(name, value);
-    let id = this.panels[this.checkIndex(index)].controls.inputs.length-1
+    let id = this.panels[this.checkIndex(index)].controls.inputs.length - 1
 
-      this.panels[this.checkIndex(index)].controls.inputs[id].attribute("min",0)
+    this.panels[this.checkIndex(index)].controls.inputs[id].attribute("min", 0)
 
-      this.panels[this.checkIndex(index)].controls.inputs[id].attribute("max",maxVal)
-    
+    this.panels[this.checkIndex(index)].controls.inputs[id].attribute("max", maxVal)
+
   }
 
   addFile(index, name, callbackFn = null) {
@@ -452,9 +459,9 @@ class UI {
     if (setValue === null) {
       if (control.attribute("type") == "number") {
         return control.value?.() - 0
-      } else if(control.value() == "true"){
+      } else if (control.value() == "true") {
         return true
-      }else if(control.value() == "false"){
+      } else if (control.value() == "false") {
         return false
       } else {
 
@@ -471,7 +478,7 @@ class UI {
     const control = this.panels[panelIndex].controls.inputs[controlIndex];
 
     control.removeAttribute("onchange")
-    control.attribute('onchange',`function fn() {
+    control.attribute('onchange', `function fn() {
       ui.values()
       ${callbackFn}
     }
@@ -483,16 +490,16 @@ class UI {
     const control = this.panels[panelIndex].controls.inputs[controlIndex];
 
     control.removeAttribute("oninput")
-    control.attribute('oninput',`function fn() {
+    control.attribute('oninput', `function fn() {
       ui.values()
       ${callbackFn}
     }
       
     fn()`);
-    
+
   }
 
-  values(){
+  values() {
     for (let item of this.panels) {
       item.values(this.debug)
     }
@@ -515,15 +522,15 @@ class UI {
     }
   }
 
-  clipboard(panelIndex,controlIndex){
-    let val = ui.accessValue(panelIndex,controlIndex)
+  clipboard(panelIndex, controlIndex) {
+    let val = ui.accessValue(panelIndex, controlIndex)
     navigator.clipboard.writeText(String(val))
 
     ui.sketchTitle.html("Value copied: " + String(val))
 
 
-    window.setTimeout(()=> ui.sketchTitle.html(this.title),1500)
-   
+    window.setTimeout(() => ui.sketchTitle.html(this.title), 1500)
+
   }
 
 }
@@ -598,16 +605,16 @@ class Panel {
     control.object.parent(control.block)
     control.name.parent(control.container)
 
-    control.object.attribute("oninput","ui.values()")
-    control.object.attribute("onchange","ui.values()")
+    control.object.attribute("oninput", "ui.values()")
+    control.object.attribute("onchange", "ui.values()")
 
     this.controls.inputs.push(control.object);
-  
-    control.name.attribute('onclick',`ui.clipboard(${ui.panels.length-1},${this.controls.inputs.length-1})`)
+
+    control.name.attribute('onclick', `ui.clipboard(${ui.panels.length - 1},${this.controls.inputs.length - 1})`)
 
     this.controls.names.push(name)
     this.controls.span.push(control.name)
-    
+
   }
 
 
@@ -618,30 +625,29 @@ class Panel {
 
     function createInterfaceButton(callbackFn) {
       let button = createButton("+")
-  
+
       button.mousePressed(callbackFn)
 
       return button
     }
 
-    this.createControl(name,createInterfaceButton(callbackFn))
+    this.createControl(name, createInterfaceButton(callbackFn))
   }
 
   addCheckbox(name, defaultVal) {
     function createInterfaceCheckbox(defaultVal = true) {
       let button = createButton("+", defaultVal)
-      
+
       button.mousePressed(() => {
-        if (button.value()=="true") {
+        if (button.value() == "true") {
           button.value(false)
           button.addClass("control-checkbox-off")
           button.removeClass("control-checkbox-on")
-          
-        } else if(button.value()=="false") {
+
+        } else if (button.value() == "false") {
           button.value(true)
           button.addClass("control-checkbox-on")
           button.removeClass("control-checkbox-off")
-          
         }
 
         ui.values()
@@ -685,7 +691,7 @@ class Panel {
 
     function createInterfaceButton(callbackFn) {
       let button = createButton("Upload")
-  
+
       button.mousePressed(callbackFn)
       button.addClass("control-upload")
 
@@ -727,17 +733,17 @@ class Panel {
 
   }
 
-  values(bool){
-    for(let i = 0; i<  this.controls.span.length; i++){
+  values(bool) {
+    for (let i = 0; i < this.controls.span.length; i++) {
       let current = this.controls.span[i]
 
-      if(bool){
-      current.html(i + " - " + this.controls.inputs[i].value())
-    } else {
-      current.html(i + " - " + this.controls.names[i])
+      if (bool) {
+        current.html(i + " - " + this.controls.inputs[i].value())
+      } else {
+        current.html(i + " - " + this.controls.names[i])
+      }
     }
   }
-}
 
   collapse() {
 
@@ -745,16 +751,18 @@ class Panel {
       this.title.block.style("border-top", "none")
       this.save.block.style("display", "none")
       this.title.button.html("+")
-      this.title.block.style("padding-top","5px")
-      this.title.block.style("margin-bottom","5px")
+      this.title.block.style("padding-top", "5px")
+      this.title.block.style("margin-bottom", "5px")
       this.controls.block.style("display", "none")
-    } else {  
+    } else {
       this.title.block.style("border-top", "1px solid black")
       this.save.block.style("display", "grid")
       this.title.button.html("-")
-      this.title.block.style("padding-top","10px")
-      this.title.block.style("margin-bottom","10px")
+      this.title.block.style("padding-top", "10px")
+      this.title.block.style("margin-bottom", "10px")
       this.controls.block.style("display", "block")
+      ui.panelGrid.style("height", "0")
+      ui.panelGrid.style("height", "auto")
     }
   }
 
