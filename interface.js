@@ -5,7 +5,7 @@ function injectStyles() {
   --panel-background: rgb(200, 200, 200, 0.5);
   --control-height: 18px;
   --panel-width: 160px;
-  --panel-font: Helvetica, Arial;
+  --panel-font: Diatype, Helvetica;
   --panel-font-weight: bold;
   --panel-font-size: 13px;
   --panel-font-letter-spacing: -0.6px;
