@@ -754,6 +754,7 @@ class Panel {
       this.title.block.style("padding-top", "5px")
       this.title.block.style("margin-bottom", "5px")
       this.controls.block.style("display", "none")
+      this.panel.style("border-radius", "15px")
     } else {
       this.title.block.style("border-top", "1px solid black")
       this.save.block.style("display", "grid")
@@ -761,6 +762,7 @@ class Panel {
       this.title.block.style("padding-top", "10px")
       this.title.block.style("margin-bottom", "10px")
       this.controls.block.style("display", "block")
+      this.panel.style("border-radius", "30px")
       ui.panelGrid.style("height", "0")
       ui.panelGrid.style("height", "auto")
     }
