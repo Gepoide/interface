@@ -70,7 +70,7 @@ canvas {
 .sketch-title {
   width: max-content;
   height: max-content;
-  background: rgb(255,60,0) !important;
+  background: rgb(255,60,0);
 }
 
 .sketch-title:hover{
